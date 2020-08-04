@@ -10,7 +10,7 @@ const usersRouter = require("./routes/users")
 
 const app = express();
 app.use(morgan('dev'));
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: true }));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -37,16 +37,16 @@ app.use((req, res, next) => {
     next(err);
   });
 
-//   app.use((err, req, res, next) => {
-//     res.status(err.status || 500);
-//     const isProduction = environment === "production";
-//     res.json({
-//       title: err.title || "Server Error",
-//       message: err.message,
-//       errors: err.errors,
-//       stack: isProduction ? null : err.stack,
-//     });
-//   });
+  // app.use((err, req, res, next) => {
+  //   res.status(err.status || 500);
+  //   const isProduction = environment === "production";
+  //   res.json({
+  //     title: err.title || "Server Error",
+  //     message: err.message,
+  //     errors: err.errors,
+  //     stack: isProduction ? null : err.stack,
+  //   });
+  // });
 
 db.sequelize
   .authenticate()

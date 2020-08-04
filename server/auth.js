@@ -1,23 +1,22 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("./models");
 const bearerToken = require("express-bearer-token");
+const uuid = require('uuid').v4;
 
-const secret = process.env.JWT_SECRET
-const expiresIn = process.env.JWT_EXPIRES_IN
+const { jwtConfig: { secret, expiresIn } } = require('./config/index');
 
 const getUserToken = (user) => {
-  const userDataForToken = {
+  const data = {
     id: user.id,
     email: user.email,
   };
+  const jwtid = uuid();
 
-  const token = jwt.sign(
-    { data: userDataForToken },
-    secret,
-    { expiresIn: parseInt(expiresIn, 10) }
-  );
 
-  return token;
+  return {
+    jti: jwtid,
+    token: jwt.sign({ data }, secret, { expiresIn: Number.parseInt(expiresIn), jwtid })
+  };
 };
 
 const restoreUser = (req, res, next) => {

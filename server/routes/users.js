@@ -106,32 +106,19 @@ router.post(
       err.errors = ["The provided credentials were invalid."];
       return next(err);
     }
-    const token = getUserToken(user);
+
+    const {jti, token} = getUserToken(user);
+    user.token = jti;
+    await user.save();
     res.json({ token, user: { id: user.id } });
   })
 );
 
-//get servers associated with user
-// router.get(
-//   "/:id/",
-//   requireAuth,
-//   asyncHandler(async (req, res, next) => {
-//     const userId = parseInt(req.params.id, 10);
-//     const tweets = await Tweet.findAll({
-//       where: { userId },
-//     });
-//     res.json({ tweets });
-//   })
-// );
-
-// router.get(
-//   "/:id",
-//   requireAuth,
-//   asyncHandler(async (req, res, next) => {
-//     const userId = parseInt(req.params.id, 10);
-//     const { id, userName } = await User.findByPk(userId);
-//     res.json({ user: { id, userName } });
-//   })
-// );
+//log out user
+router.delete('/logout', requireAuth, asyncHandler(async (req, res) => {
+  req.user.token = null;
+  await req.user.save();
+  res.json({message: 'successfully logged out'})
+}))
 
 module.exports = router;

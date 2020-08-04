@@ -1,15 +1,15 @@
-import React from 'react';
-import RegistrationForm from './components/Register';
-import {BrowserRouter, NavLink, Switch, Route} from 'react-router-dom';
+import React from "react";
+import SignUp from "./components/SignUp";
+import Login from "./components/Login";
+import { BrowserRouter, NavLink, Switch, Route } from "react-router-dom";
 
-
-
-import {AuthRoute, ProtectedRoute} from './Routes.js';
+import { AuthRoute, ProtectedRoute } from "./Routes.js";
 
 function App() {
   return (
-    <div>
+    <BrowserRouter>
       <h1>Harmony</h1>
+      <div className="alert alert-primary" role="alert"></div>
       <nav>
         <ul>
           <li>
@@ -18,7 +18,7 @@ function App() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/register">Register</NavLink>
+            <NavLink to="/signup">Sign up</NavLink>
           </li>
           <li>
             <NavLink to="/login">Login</NavLink>
@@ -28,10 +28,11 @@ function App() {
           </li>
         </ul>
         <Switch>
-          <AuthRoute path="/register" component={RegistrationForm}></AuthRoute>
+          <AuthRoute path="/login" component={Login}></AuthRoute>
+          <AuthRoute path="/signup" component={SignUp}></AuthRoute>
         </Switch>
       </nav>
-    </div>
+    </BrowserRouter>
   );
 }
 
