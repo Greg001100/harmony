@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "dotenv nodemon .",
     "heroku-postbuild": "npm install --prefix harmony_frontend && npm run build --prefix harmony_frontend && npm run db:redo",
-    "db:redo": "npm run db:seed:undo:all && npm run db:migrate:undo:all && npm run db:migrate && npm run db:seed:all"
+    "db:redo": "npm run db:seed:undo:all && npm run db:migrate:undo:all && npm run db:migrate && npm run db:seed:all",
+    "start": "dotenv node app.js"
   },
   "keywords": [],
   "author": "",
