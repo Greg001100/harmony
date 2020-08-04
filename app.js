@@ -18,16 +18,13 @@ app.use('/', usersRouter)
 
 const port = Number.parseInt(process.env.PORT, 10) || 8081;
 
-app.get('/', (req, res) => {
-    res.send('Hola Mundo');
-})
-
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('harmony_frontend/build'));
   app.get('/', (req, res) => {
       res.sendFile(path.resolve(__dirname, 'harmony_frontend', 'build', 'index.html'));
   });
 }
+
 
 app.use((req, res, next) => {
     const err = new Error("The requested resource couldn't be found.");
