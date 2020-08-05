@@ -1,3 +1,5 @@
+const {validationResult} = require('express-validator')
+
 const csrf = require('csurf');
 
 const csrfProtection = csrf({ cookie: true });
@@ -14,7 +16,10 @@ const handleValidationErrors = (req, res, next) => {
       err.status = 400;
       err.title = "Bad request.";
       err.errors = errors;
-      return next(err);
+      res.status(err.status).json({
+        title: err.title,
+        errors: err.errors,
+      });
     }
     next();
   };

@@ -3,11 +3,13 @@ import {baseUrl} from '../config'
 const HARMONY_KEY = 'HARMONY_KEY';
 export const SET_TOKEN = 'SET_TOKEN';
 export const SET_USER = 'SET_USER';
-export const REMOVE_TOKEN = 'REMOVE_TOKEN';
+export const REMOVE_AUTH = 'REMOVE_AUTH';
+export const BAD_CREDENTIALS = 'BAD_CREDENTIALS';
+export const VAL_ERRORS = 'VAL_ERRORS';
 
 
-export const removeToken = () => ({
-  type: REMOVE_TOKEN,
+export const removeAuth = () => ({
+  type: REMOVE_AUTH,
 });
 
 export const setToken = token => ({
@@ -20,17 +22,34 @@ export const setUser = user => ({
   user,
 });
 
+export const badCredentials =() => ({
+  type: BAD_CREDENTIALS,
+  badCredentials: true,
+})
+
+export const setValErrors = (valErrors) => ({
+  type: VAL_ERRORS,
+  valErrors
+
+})
+
 export const registerUser = (email, userName, password) => async dispatch => {
-  const res = await fetch(`${baseUrl}/signup`, {
+  const response = await fetch(`${baseUrl}/signup`, {
     method: 'post',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({email, userName, password}),
   })
 
-  if (res.ok) {
-    const {token, user} = await res.json()
-    window.localStorage.setItem(HARMONY_KEY, token)
-    dispatch(setToken(token))
+  if (response.ok) {
+    const { token, user } = await response.json();
+    console.log(token, user)
+    window.localStorage.setItem(HARMONY_KEY, token);
+    dispatch(setToken(token));
+    dispatch(setUser(user))
+  } else {
+    const valErrors = await response.json()
+    dispatch(setValErrors(valErrors.errors))
+    console.log(valErrors);
   }
 }
 
@@ -53,7 +72,8 @@ export const login = (email, password) => async dispatch => {
     window.localStorage.setItem(HARMONY_KEY, token);
     dispatch(setToken(token));
     dispatch(setUser(user))
-    console.log('yoyo', user)
+  } else {
+    dispatch(badCredentials())
   }
 };
 
@@ -66,6 +86,6 @@ export const logout = () => async (dispatch, getState) => {
 
   if (response.ok) {
     window.localStorage.removeItem(HARMONY_KEY);
-    dispatch(removeToken());
+    dispatch(removeAuth());
   }
 };

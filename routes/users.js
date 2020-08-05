@@ -14,7 +14,16 @@ const userValidators = [
     .exists({ checkFalsy: true })
     .withMessage("Please provide a User Name")
     .isLength({ max: 50 })
-    .withMessage("User name must not be more than 50 characters long"),
+    .withMessage("User name must not be more than 50 characters long")
+    .custom((value) => {
+      return db.User.findOne({ where: { userName: value } }).then((user) => {
+        if (user) {
+          return Promise.reject(
+            "The provided Username is already in use."
+          );
+        }
+      });
+    }),
   check("email")
     .exists({ checkFalsy: true })
     .withMessage("Please provide a value for Email Address")
@@ -40,17 +49,6 @@ const userValidators = [
     .withMessage(
       'Password must contain at least 1 lowercase letter, uppercase letter, number, and special character (i.e. "!@#$%^&*")'
     ),
-  check("confirmPassword")
-    .exists({ checkFalsy: true })
-    .withMessage("Please provide a value for Confirm Password")
-    .isLength({ max: 50 })
-    .withMessage("Confirm Password must not be more than 50 characters long")
-    .custom((value, { req }) => {
-      if (value !== req.body.password) {
-        throw new Error("Confirm Password does not match Password");
-      }
-      return true;
-    }),
 ];
 
 const loginValidators = [
@@ -64,21 +62,18 @@ const loginValidators = [
 
 //create new user
 router.post(
-  "/",
-  check("userName")
-    .exists({ checkFalsy: true })
-    .withMessage("Please provide a userName"),
+  "/signup",
   userValidators,
+  handleValidationErrors,
   asyncHandler(async (req, res) => {
     const { userName, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ userName, email, hashedPassword });
 
-    const token = getUserToken(user);
-    res.status(201).json({
-      user: { id: user.id },
-      token,
-    });
+    const {jti, token} = getUserToken(user);
+    user.token = jti;
+    await user.save();
+    res.json({ token, user});
   })
 );
 
@@ -104,6 +99,7 @@ router.post(
       err.status = 401;
       err.title = "Login failed";
       err.errors = ["The provided credentials were invalid."];
+      res.status = 401;
       return next(err);
     }
 

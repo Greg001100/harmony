@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { PrivateRoute } from "./routesUtil.js";
 
 function App() {
-  const userId = useSelector(state => state.authentication.id);
+  const token = useSelector(state => state.authentication.token);
 
   return (
     <BrowserRouter>
@@ -32,7 +32,7 @@ function App() {
           </li>
         </ul>
         <Switch>
-          <PrivateRoute path="/home" exact={true} userId={userId} component={Home}></PrivateRoute>
+          <PrivateRoute path="/home" exact={true} token={token} component={Home}></PrivateRoute>
           <Route path="/login" component={Login}></Route>
           <Route path="/signup" component={SignUp}></Route>
         </Switch>

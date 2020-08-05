@@ -5,6 +5,8 @@ const db = require('./models')
 const { ValidationError } = require("sequelize");
 const cors = require("cors");
 const bodyParser = require('body-parser');
+const { createServer } = require('http');
+const WebSocket = require('ws')
 
 const usersRouter = require("./routes/users")
 
@@ -27,37 +29,68 @@ if (process.env.NODE_ENV === 'production') {
 
 
 app.use((req, res, next) => {
-    const err = new Error("The requested resource couldn't be found.");
-    err.errors = ["The requested resource couldn't be found."];
-    err.status = 404;
-    next(err);
+  const err = new Error("The requested resource couldn't be found.");
+  err.errors = ["The requested resource couldn't be found."];
+  err.status = 404;
+  next(err);
+});
+
+app.use((err, req, res, next) => {
+  if (err instanceof ValidationError) {
+    err.errors = err.errors.map((e) => e.message);
+    err.title = "Sequelize Error";
+  }
+  next(err);
+});
+
+// app.use((err, req, res, next) => {
+//   res.status(err.status || 500);
+//   const isProduction = environment === "production";
+//   res.json({
+//     title: err.title || "Server Error",
+//     message: err.message,
+//     errors: err.errors,
+//     stack: isProduction ? null : err.stack,
+//   });
+// });
+
+const server = createServer(app);
+const wss = new WebSocket.Server({server})
+
+wss.on('connection', (ws) => {
+  ws.on('message', (jsonData) => {
+    console.log(`Processing incoming message ${jsonData}...`);
+
+    const message = JSON.parse(jsonData);
+    const chatMessage = message.data;
+
+    const addChatMessage = {
+      type: 'add-chat-message',
+      data: chatMessage,
+    };
+    const jsonAddChatMessage = JSON.stringify(addChatMessage);
+    console.log(`Sending message ${jsonAddChatMessage}...`);
+
+    wss.clients.forEach((client) => {
+      // Ready states include:
+      // CONNECTING, OPEN, CLOSING, CLOSED
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(jsonAddChatMessage);
+      }
+    });
   });
 
-  app.use((err, req, res, next) => {
-    if (err instanceof ValidationError) {
-      err.errors = err.errors.map((e) => e.message);
-      err.title = "Sequelize Error";
-    }
-    next(err);
+  ws.on('close', (e) => {
+    console.log(e);
   });
-
-  // app.use((err, req, res, next) => {
-  //   res.status(err.status || 500);
-  //   const isProduction = environment === "production";
-  //   res.json({
-  //     title: err.title || "Server Error",
-  //     message: err.message,
-  //     errors: err.errors,
-  //     stack: isProduction ? null : err.stack,
-  //   });
-  // });
+});
 
 db.sequelize
   .authenticate()
   .then(() => {
     console.log("Database connection success! Sequelize is ready to use...");
 
-    app.listen(port, () => console.log(`Listening on port ${port}...`));
+    server.listen(port, () => console.log(`Listening on port ${port}...`));
   })
   .catch((err) => {
     console.log("Database connection failure.");
