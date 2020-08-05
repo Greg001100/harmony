@@ -2,6 +2,7 @@ import {baseUrl} from '../config'
 
 const HARMONY_KEY = 'HARMONY_KEY';
 export const SET_TOKEN = 'SET_TOKEN';
+export const SET_USER = 'SET_USER';
 export const REMOVE_TOKEN = 'REMOVE_TOKEN';
 
 
@@ -12,6 +13,11 @@ export const removeToken = () => ({
 export const setToken = token => ({
   type: SET_TOKEN,
   token,
+});
+
+export const setUser = user => ({
+  type: SET_USER,
+  user,
 });
 
 export const registerUser = (email, userName, password) => async dispatch => {
@@ -43,9 +49,11 @@ export const login = (email, password) => async dispatch => {
   });
 
   if (response.ok) {
-    const { token } = await response.json();
+    const { token, user } = await response.json();
     window.localStorage.setItem(HARMONY_KEY, token);
     dispatch(setToken(token));
+    dispatch(setUser(user))
+    console.log('yoyo', user)
   }
 };
 

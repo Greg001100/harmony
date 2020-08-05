@@ -24,7 +24,7 @@ const RegistrationForm = () => {
           <input type='text' name='userName' value={userName} placeholder='Enter userName' onChange={updateUserName}></input>
           <input type='email' name='email' value={email} placeholder='Enter email' onChange={updateEmail}></input>
           <input type='password' name='password' value={password} placeholder='Enter password' onChange={updatePassword}></input>
-          <button type="submit" onClick={this.registerUser}>
+          <button type="submit" onClick={registerUser}>
              Sign Up
           </button>
       </form>

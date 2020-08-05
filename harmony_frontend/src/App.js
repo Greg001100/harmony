@@ -1,11 +1,15 @@
 import React from "react";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
+import Home from "./components/Home"
 import { BrowserRouter, NavLink, Switch, Route } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
 
-import { AuthRoute, ProtectedRoute } from "./Routes.js";
+import { PrivateRoute } from "./routesUtil.js";
 
 function App() {
+  const userId = useSelector(state => state.authentication.id);
+
   return (
     <BrowserRouter>
       <h1>Harmony</h1>
@@ -13,7 +17,7 @@ function App() {
       <nav>
         <ul>
           <li>
-            <NavLink exact to="/">
+            <NavLink exact to="/home">
               Home
             </NavLink>
           </li>
@@ -28,8 +32,9 @@ function App() {
           </li>
         </ul>
         <Switch>
-          <AuthRoute path="/login" component={Login}></AuthRoute>
-          <AuthRoute path="/signup" component={SignUp}></AuthRoute>
+          <PrivateRoute path="/home" exact={true} userId={userId} component={Home}></PrivateRoute>
+          <Route path="/login" component={Login}></Route>
+          <Route path="/signup" component={SignUp}></Route>
         </Switch>
       </nav>
     </BrowserRouter>
