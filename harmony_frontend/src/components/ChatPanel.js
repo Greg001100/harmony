@@ -4,10 +4,11 @@ import uuid from 'uuid';
 import {wsUrl} from '../config'
 
 
-const ChatRoom = () => {
-  const userName = useSelector(state=> state.authentication.userName)
+const ChatPanel = () => {
+  const userName = useSelector(state=> state.authentication.user.userName)
   const [username, setUsername] = useState(userName);
   const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
   const webSocket = useRef(null);
 
   useEffect(() => {
@@ -101,7 +102,7 @@ const ChatRoom = () => {
     setUsername("");
   };
   //--------------------------------------
-  const [message, setMessage] = useState("");
+
 
   const handleOnChange = (e) => {
     setMessage(e.target.value);
@@ -117,8 +118,8 @@ const ChatRoom = () => {
   };
 
   return (
-    <div >
-      <div >
+    <div className="border border-dark bg-secondary overflow-auto flex-grow-1" >
+      <div className="align-bottom" >
         <input type="text" value={message} onChange={handleOnChange} />
         <button type="button" onClick={handleSendOnClick}>
           Send
@@ -126,9 +127,9 @@ const ChatRoom = () => {
         <button type="button" onClick={handleLeaveOnClick}>
           Leave
         </button>
-        <div>
+        <div className="overflow-auto">
           {messages.map((m) => (
-            <p key={m.id}>
+            <p className="text-info" key={m.id}>
               ({m.created.toLocaleTimeString()}) <strong>{m.username}:</strong>{" "}
               {m.message}
             </p>
@@ -139,4 +140,4 @@ const ChatRoom = () => {
   );
 };
 
-export default ChatRoom;
+export default ChatPanel;

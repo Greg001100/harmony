@@ -3,10 +3,10 @@ import {
   REMOVE_AUTH,
   SET_USER,
   BAD_CREDENTIALS,
-  VAL_ERRORS
+  VAL_ERRORS,
 } from '../actions/authentication';
 
-const authReducer = (state = {}, action) => {
+const authReducer = (state = {token: {}, user: {userName:''}}, action) => {
   let nextState= {...state}
   switch (action.type) {
     case SET_TOKEN: {
@@ -17,7 +17,7 @@ const authReducer = (state = {}, action) => {
     }
 
     case SET_USER: {
-      nextState= {...nextState, ...action.user}
+      nextState= {...nextState, user: action.user}
       return nextState;
     }
 

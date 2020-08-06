@@ -1,30 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { login } from "../actions/authentication";
+import { saveState } from "../utilities/localStorage";
+import Home from "./Home";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false)
   const dispatch = useDispatch();
   const token = useSelector(state => state.authentication.token);
   const badCredentials = useSelector(state => state.authentication.badCredentials);
+  const history= useHistory();
 
-  if (token) {
-    if (token) {
-      return <Redirect to="/home" />;
-    }
-  }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login(email, password));
+    await dispatch(login(email, password));
+    history.push('/home')
+  };
+  const fastLogin = async (e) => {
+    await dispatch(login('gergdll@gmail.com', 'P4ssword!'))
+    history.push('/home')
   };
 
   const updateEmail = (e) => setEmail(e.target.value);
   const updatePassword = (e) => setPassword(e.target.value);
-
 
   return (
     <>
@@ -43,6 +46,11 @@ const Login = () => {
           Submit
         </Button>
       </Form>
+
+        <Button variant="primary" type="submit" onClick={fastLogin}>
+          fast login
+        </Button>
+
     </>
   );
 };

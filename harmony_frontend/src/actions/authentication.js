@@ -6,6 +6,7 @@ export const SET_USER = 'SET_USER';
 export const REMOVE_AUTH = 'REMOVE_AUTH';
 export const BAD_CREDENTIALS = 'BAD_CREDENTIALS';
 export const VAL_ERRORS = 'VAL_ERRORS';
+export const CURRENT_USER = 'CURRENT_USER';
 
 
 export const removeAuth = () => ({
@@ -30,7 +31,6 @@ export const badCredentials =() => ({
 export const setValErrors = (valErrors) => ({
   type: VAL_ERRORS,
   valErrors
-
 })
 
 export const registerUser = (email, userName, password) => async dispatch => {
@@ -42,8 +42,8 @@ export const registerUser = (email, userName, password) => async dispatch => {
 
   if (response.ok) {
     const { token, user } = await response.json();
-    console.log(token, user)
     window.localStorage.setItem(HARMONY_KEY, token);
+    window.localStorage.setItem(CURRENT_USER, userName);
     dispatch(setToken(token));
     dispatch(setUser(user))
   } else {
@@ -53,13 +53,6 @@ export const registerUser = (email, userName, password) => async dispatch => {
   }
 }
 
-export const loadToken = () => async dispatch => {
-  const token = window.localStorage.getItem(HARMONY_KEY);
-  if (token) {
-    dispatch(setToken(token));
-  }
-};
-
 export const login = (email, password) => async dispatch => {
   const response = await fetch(`${baseUrl}/login`, {
     method: 'post',
@@ -68,14 +61,30 @@ export const login = (email, password) => async dispatch => {
   });
 
   if (response.ok) {
+
     const { token, user } = await response.json();
     window.localStorage.setItem(HARMONY_KEY, token);
+    window.localStorage.setItem(CURRENT_USER, JSON.stringify(user));
     dispatch(setToken(token));
     dispatch(setUser(user))
   } else {
     dispatch(badCredentials())
   }
 };
+export const loadToken = () => async dispatch => {
+  const token = window.localStorage.getItem(HARMONY_KEY);
+  if (token) {
+    dispatch(setToken(token));
+  }
+};
+
+export const loadUser = () => async dispatch => {
+  const user = JSON.parse(window.localStorage.getItem(CURRENT_USER));
+  if (user) {
+    dispatch(setUser(user));
+  }
+};
+
 
 export const logout = () => async (dispatch, getState) => {
   const { authentication: { token } } = getState();
@@ -86,6 +95,7 @@ export const logout = () => async (dispatch, getState) => {
 
   if (response.ok) {
     window.localStorage.removeItem(HARMONY_KEY);
+    window.localStorage.removeItem(CURRENT_USER);
     dispatch(removeAuth());
   }
 };

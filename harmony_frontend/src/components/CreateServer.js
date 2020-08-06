@@ -1,0 +1,53 @@
+import React, {useState} from "react";
+import {Button, Modal, Form} from "react-bootstrap"
+import { createServer } from "../actions/ServerActions";
+import { useDispatch, useSelector } from "react-redux";
+
+
+const CreateServer = () => {
+  const [show, setShow] = useState(false);
+  const [serverName, setServerName] = useState("")
+  const userName = useSelector((state) => state.authentication.user.userName);
+  const dispatch= useDispatch()
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await dispatch(createServer(serverName, userName))
+    handleClose()
+  };
+
+  const updateServerName= (e) => setServerName(e.target.value)
+
+  return (
+    <>
+      <Button variant="primary" onClick={handleShow}>
+        Create a new server
+      </Button>
+
+      <Modal show={show} onHide={handleClose} animation={false}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create A Server!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <Form>
+                <Form.Label>Enter Server Name</Form.Label>
+                <Form.Control type="text" placeholder="Enter Username" value = {serverName} onChange={updateServerName} />
+            </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" type="submit" onClick={handleSubmit}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
+
+export default CreateServer;
