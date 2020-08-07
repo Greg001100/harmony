@@ -9,6 +9,7 @@ const { createServer } = require('http');
 const WebSocket = require('ws')
 
 const usersRouter = require("./routes/users")
+const serverRouter = require("./routes/servers")
 
 const app = express();
 app.use(morgan('dev'));
@@ -17,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use('/', usersRouter)
+app.use('/servers', serverRouter)
 
 const port = Number.parseInt(process.env.PORT, 10) || 8081;
 

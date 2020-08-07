@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getServers } from "../actions/ServerActions";
+import { getChannels } from "../actions/ServerActions";
 import { NavLink } from "react-router-dom";
 
-const ServerList = () => {
+const Channels = () => {
 
-  const userId = useSelector((state) => state.authentication.user.id);
   const servers = useSelector((state) => state.servers[0]);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getServers());
-  }, []);
+//   useEffect(() => {
+//     dispatch(getChannels());
+//   }, []);
 
   if (servers) {
     return (
@@ -32,4 +31,4 @@ const ServerList = () => {
   }
 };
 
-export default ServerList;
+export default Channels;

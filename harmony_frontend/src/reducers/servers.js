@@ -2,11 +2,15 @@ import {
     ADD_SERVER
 } from '../actions/ServerActions'
 
-const serversReducer = (state={}, action) => {
-    let nextState = {...state}
+const serversReducer = (state=[], action) => {
     switch (action.type) {
         case ADD_SERVER: {
-            nextState= {...nextState, id: action.id, name: action.name}
+            return [
+                ...state,
+                {
+                    server: action.server
+                }
+            ]
         }
 
         default: return state;

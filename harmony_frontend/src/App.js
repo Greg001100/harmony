@@ -27,7 +27,7 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <PrivateRoute path="/home" exact={true} needLogin={needLogin} component={Home}></PrivateRoute>
+        <PrivateRoute path="/home/" needLogin={needLogin} component={Home}></PrivateRoute>
         <Route path="/login" component={Login}></Route>
         <Route path="/signup" component={SignUp}></Route>
         <Route exact path="/" component={Splash}></Route>

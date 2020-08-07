@@ -8,6 +8,7 @@ const CreateServer = () => {
   const [show, setShow] = useState(false);
   const [serverName, setServerName] = useState("")
   const userName = useSelector((state) => state.authentication.user.userName);
+  const userId = useSelector((state) => state.authentication.user.id);
   const dispatch= useDispatch()
 
   const handleClose = () => setShow(false);
@@ -15,7 +16,7 @@ const CreateServer = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(createServer(serverName, userName))
+    await dispatch(createServer(serverName, userId))
     handleClose()
   };
 
@@ -34,7 +35,7 @@ const CreateServer = () => {
         <Modal.Body>
             <Form>
                 <Form.Label>Enter Server Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter Username" value = {serverName} onChange={updateServerName} />
+                <Form.Control type="text" placeholder="Enter a name for your server" value = {serverName} onChange={updateServerName} />
             </Form>
         </Modal.Body>
         <Modal.Footer>

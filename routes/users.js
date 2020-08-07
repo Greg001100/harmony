@@ -7,7 +7,7 @@ const { getUserToken, requireAuth } = require("../auth");
 const router = express.Router();
 const db = require("../models");
 
-const { User, } = db;
+const { User } = db;
 
 const userValidators = [
   check("userName")

@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 import ChatPanel from "./ChatPanel";
 import Logout from "./logout";
 import MemberList from "./MemberList";
-import ServerChannels from "./ServerChannels";
+import Channels from "./Channels";
 import ServerList from "./ServerList";
 import TopNav from "./TopNav";
 import CreateServer from "./CreateServer";
@@ -23,15 +23,13 @@ const Home = () => {
   const token = useSelector((state) => state.authentication.token);
   const userName = useSelector((state) => state.authentication.user.userName);
 
-  if (!userName) {
-    return history.push('/');
-  }
 
   return (
     <>
       <Container fluid className="vh-100 vw-100 bg-dark d-flex flex-column">
         <Row className="bg-primary h-auto">
           <TopNav />
+          <h1>Welcome, {userName} </h1>
         </Row>
         <Row className="flex-grow-1">
           <Col xs={1} className="bg-success">
@@ -40,12 +38,10 @@ const Home = () => {
             <Logout></Logout>
           </Col>
           <Col xs={2} className="bg-info">
-            <ServerChannels></ServerChannels>
-            <h1>Welcome, {userName} </h1>
+            <Channels></Channels>
           </Col>
           <Col className="bg-warning d-flex flex-column overflow-auto">
             <ChatPanel />
-            {/* <DirectMessages /> */}
           </Col>
           <Col xs={2} className="bg-danger">
             <MemberList />
