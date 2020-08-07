@@ -11,6 +11,7 @@ import Channels from "./Channels";
 import ServerList from "./ServerList";
 import TopNav from "./TopNav";
 import CreateServer from "./CreateServer";
+import CreateChannel from "./CreateChannel";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -38,7 +39,8 @@ const Home = () => {
             <Logout></Logout>
           </Col>
           <Col xs={2} className="bg-info">
-            <Channels></Channels>
+            <Channels />
+            <CreateChannel />
           </Col>
           <Col className="bg-warning d-flex flex-column overflow-auto">
             <ChatPanel />

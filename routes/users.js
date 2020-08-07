@@ -7,7 +7,7 @@ const { getUserToken, requireAuth } = require("../auth");
 const router = express.Router();
 const db = require("../models");
 
-const { User } = db;
+const { User, Server_User } = db;
 
 const userValidators = [
   check("userName")
@@ -69,6 +69,7 @@ router.post(
     const { userName, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ userName, email, hashedPassword });
+    await Server_User.create({serverId:1, userId: user.id})
 
     const {jti, token} = getUserToken(user);
     user.token = jti;

@@ -18,7 +18,7 @@ const RegistrationForm = () => {
       dispatch(removeAuth());
       dispatch(registerUser(email, userName, password));
       return (
-          <Redirect to="/home" />
+          <Redirect to="/home/1/1" />
       )
     } else {
       alert('Password and confirmation do not match!')

@@ -6,7 +6,6 @@ import {wsUrl} from '../config'
 
 const ChatPanel = () => {
   const userName = useSelector(state=> state.authentication.user.userName)
-  const [username, setUsername] = useState(userName);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const webSocket = useRef(null);
@@ -14,7 +13,7 @@ const ChatPanel = () => {
   useEffect(() => {
     // If we don't have a username
     // then we don't need to create a WebSocket.
-    if (!username) {
+    if (!userName) {
       return;
     }
 
@@ -34,7 +33,6 @@ const ChatPanel = () => {
     ws.onclose = (e) => {
       console.log(`Connection closed: ${e}`);
       webSocket.current = null;
-      setUsername("");
       setMessages([]);
     };
 
@@ -47,7 +45,7 @@ const ChatPanel = () => {
         webSocket.current.close();
       }
     };
-  }, [username]);
+  }, [ userName]);
 
   // This effect will be called when the `App` component unmounts.
   useEffect(() => {
@@ -76,14 +74,11 @@ const ChatPanel = () => {
     }
   }, [messages]);
 
-  const updateUsername = (username) => {
-    setUsername(username);
-  };
 
   const handleSendMessage = (message) => {
     const newMessage = {
       id: uuid(),
-      username,
+      userName,
       message,
       created: new Date(),
     };
@@ -99,9 +94,8 @@ const ChatPanel = () => {
   };
 
   const handleLeave = () => {
-    setUsername("");
+
   };
-  //--------------------------------------
 
 
   const handleOnChange = (e) => {
@@ -130,7 +124,7 @@ const ChatPanel = () => {
         <div className="overflow-auto">
           {messages.map((m) => (
             <p className="text-info" key={m.id}>
-              ({m.created.toLocaleTimeString()}) <strong>{m.username}:</strong>{" "}
+              ({m.created.toLocaleTimeString()}) <strong>{m.userName}:</strong>{" "}
               {m.message}
             </p>
           ))}

@@ -19,11 +19,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await dispatch(login(email, password));
-    history.push('/home')
+    history.push('/home/1/1')
   };
   const fastLogin = async (e) => {
     await dispatch(login('gergdll@gmail.com', 'P4ssword!'))
-    history.push('/home')
+    history.push('/home/1/1')
   };
 
   const updateEmail = (e) => setEmail(e.target.value);

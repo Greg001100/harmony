@@ -1,14 +1,14 @@
 import {
-    ADD_SERVER,
+    ADD_CHANNEL,
 } from '../actions/ServerActions'
 
-const serversReducer = (state=[], action) => {
+const channelsReducer = (state=[], action) => {
     switch (action.type) {
-        case ADD_SERVER: {
+        case ADD_CHANNEL: {
             return [
                 ...state,
                 {
-                    server: action.server
+                    channel: action.channel
                 }
             ]
         }
@@ -18,4 +18,4 @@ const serversReducer = (state=[], action) => {
 
 }
 
-export default serversReducer;
+export default channelsReducer;

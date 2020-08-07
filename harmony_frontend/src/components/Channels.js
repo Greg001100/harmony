@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getChannels } from "../actions/ServerActions";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 const Channels = () => {
 
-  const servers = useSelector((state) => state.servers[0]);
+  const {serverId} = useParams();
   const dispatch = useDispatch();
+  const channels = useSelector((state) => state.channels[0]);
 
-//   useEffect(() => {
-//     dispatch(getChannels());
-//   }, []);
 
-  if (servers) {
+  useEffect(() => {
+    dispatch(getChannels(serverId));
+  }, [serverId]);
+
+  if (channels) {
     return (
       <>
-        {servers.server.map((server) => {
+        {channels.channel.map((channel) => {
           return (
-            <p key={server.id}>
-              <NavLink to={`home/${server.id}`}>
-                {server.name}
+            <p key={channel.id}>
+              <NavLink to={`home/${channel.id}`}>
+                {channel.name}
               </NavLink>
             </p>
           );

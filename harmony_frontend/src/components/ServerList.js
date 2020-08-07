@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getServers } from "../actions/ServerActions";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 const ServerList = () => {
 
   const userId = useSelector((state) => state.authentication.user.id);
   const servers = useSelector((state) => state.servers[0]);
   const dispatch = useDispatch();
+  const history= useHistory();
 
   useEffect(() => {
-    dispatch(getServers());
-  }, []);
+    dispatch(getServers(userId));
+  }, [userId]);
 
   if (servers) {
     return (
@@ -19,7 +20,7 @@ const ServerList = () => {
         {servers.server.map((server) => {
           return (
             <p key={server.id}>
-              <NavLink to={`home/${server.id}`}>
+              <NavLink to={`/home/${server.id}/1`}>
                 {server.name}
               </NavLink>
             </p>

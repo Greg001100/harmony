@@ -9,7 +9,7 @@ export const addServer = (server) => ({
   });
 
 export const addChannel = (channel) => ({
-    type: ADD_SERVER,
+    type: ADD_CHANNEL,
     channel
   });
 
@@ -29,22 +29,21 @@ export const createServer = (name, ownerId) => async dispatch => {
     }
 }
 
-// export const createChannel = (name, serverId) => async dispatch => {
-//     const response = await fetch(`${baseUrl}/servers/createChannel`, {
-//         method: 'post',
-//         headers: {'Content-Type': 'application/json'},
-//         body: JSON.stringify({name, serverId}),
-//     })
+export const createChannel = (name, serverId) => async dispatch => {
+    const response = await fetch(`${baseUrl}/servers/createChannel`, {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({name, serverId}),
+    })
 
-//     if (response.ok) {
-//         const {channel} = await response.json()
-//         const {id, name} = server;
-//         dispatch(addServer(id, name))
-//     } else {
-//         const errors = await response.json();
-//         console.error(errors)
-//     }
-// }
+    if (response.ok) {
+        const {channel} = await response.json()
+        dispatch(addChannel(channel))
+    } else {
+        const errors = await response.json();
+        console.error(errors)
+    }
+}
 
 export const getServers = (userId) => async dispatch => {
     const response = await fetch(`${baseUrl}/servers/${userId}`, {
@@ -55,9 +54,22 @@ export const getServers = (userId) => async dispatch => {
     if(response.ok) {
         const servers = await response.json()
         dispatch(addServer(servers))
-        // servers.forEach((server, i) => {
-        //     dispatch(addServer(server))
-        // })
+
+    } else {
+        const errors = await response.json();
+        console.error(errors)
+    }
+}
+
+export const getChannels = (serverId) => async dispatch => {
+    const response = await fetch(`${baseUrl}/servers/channel/${serverId}`, {
+        method: 'get',
+        headers: {'Content-Type': 'application/json'},
+    })
+
+    if(response.ok) {
+        const channels = await response.json()
+        dispatch(addChannel(channels))
 
     } else {
         const errors = await response.json();
