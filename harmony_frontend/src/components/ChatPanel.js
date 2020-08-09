@@ -1,60 +1,79 @@
 import React, { useState, useEffect, useRef } from "react";
-import {useSelector} from "react-redux"
-import uuid from 'uuid';
-import {wsUrl} from '../config'
-
+import { useSelector, useDispatch } from "react-redux";
+import uuid from "uuid";
+import { wsUrl } from "../config";
+import { useParams } from "react-router-dom";
+import { getMessages, createMessage, clearMessages } from "../actions/ServerActions";
 
 const ChatPanel = () => {
-  const userName = useSelector(state=> state.authentication.user.userName)
+  const userName = useSelector((state) => state.authentication.user.userName);
+  const userId = useSelector((state) => state.authentication.user.id);
+  const loadedMessages = useSelector((state) => state.messages[0]);
+  // const newMessages = useSelector((state) => state.messages[1]);
+  const { channelId } = useParams();
+  const dispatch = useDispatch();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const webSocket = useRef(null);
 
   useEffect(() => {
+    const fetchMessages = async () => {
+      dispatch(getMessages(channelId));
+    };
+    fetchMessages();
+    console.log('amihere')
+  }, [channelId]);
+
+
+  useEffect(() => {
     // If we don't have a username
     // then we don't need to create a WebSocket.
-    if (!userName) {
-      return;
+
+    if (loadedMessages) {
+      const ws = new WebSocket(wsUrl);
+
+      ws.onopen = (e) => {
+        console.log(`Connection open: ${e}`);
+        // Set the messages state variable to trigger
+        // the other effect to set the `onmessage` event listener.
+        setMessages(loadedMessages.message);
+      };
+
+      ws.onerror = (e) => {
+        console.error(e);
+      };
+
+      ws.onclose = (e) => {
+        console.log(`Connection closed: ${e}`);
+        webSocket.current = null;
+        setMessages([]);
+      };
+
+      webSocket.current = ws;
+
+      // This function will be called when the next time
+      // that the `username` state variable changes.
+      return function cleanup() {
+        if (webSocket.current !== null) {
+          webSocket.current.close();
+          console.log('cleanup')
+        }
+      };
     }
 
-    const ws = new WebSocket(wsUrl);
 
-    ws.onopen = (e) => {
-      console.log(`Connection open: ${e}`);
-      // Set the messages state variable to trigger
-      // the other effect to set the `onmessage` event listener.
-      setMessages([]);
-    };
-
-    ws.onerror = (e) => {
-      console.error(e);
-    };
-
-    ws.onclose = (e) => {
-      console.log(`Connection closed: ${e}`);
-      webSocket.current = null;
-      setMessages([]);
-    };
-
-    webSocket.current = ws;
-
-    // This function will be called when the next time
-    // that the `username` state variable changes.
-    return function cleanup() {
-      if (webSocket.current !== null) {
-        webSocket.current.close();
-      }
-    };
-  }, [ userName]);
+  }, [loadedMessages, channelId]);
 
   // This effect will be called when the `App` component unmounts.
   useEffect(() => {
     return function cleanup() {
       if (webSocket.current !== null) {
         webSocket.current.close();
+        setMessages([])
+        dispatch(clearMessages())
       }
     };
-  }, []);
+  }, [channelId]);
 
   // This effect is called whenever the `messages` state variable is changed.
   useEffect(() => {
@@ -67,21 +86,26 @@ const ChatPanel = () => {
 
         const chatMessage = JSON.parse(e.data);
         const message = chatMessage.data;
-        message.created = new Date(message.created);
+        console.log('fifif',message)
+        // message.created = new Date(message.created);
 
-        setMessages([chatMessage.data, ...messages]);
+        setMessages([...messages, message]);
       };
     }
   }, [messages]);
 
 
-  const handleSendMessage = (message) => {
+  const handleSendMessage = (value) => {
+
+    // dispatch(createMessage(value, userId, channelId))
+
     const newMessage = {
-      id: uuid(),
-      userName,
-      message,
-      created: new Date(),
+      value,
+      userId,
+      channelId
     };
+
+    console.log('nm here',newMessage)
 
     const jsonNewMessage = JSON.stringify({
       type: "send-chat-message",
@@ -93,10 +117,8 @@ const ChatPanel = () => {
     webSocket.current.send(jsonNewMessage);
   };
 
-  const handleLeave = () => {
 
-  };
-
+  const handleLeave = () => {};
 
   const handleOnChange = (e) => {
     setMessage(e.target.value);
@@ -111,27 +133,32 @@ const ChatPanel = () => {
     handleLeave();
   };
 
-  return (
-    <div className="border border-dark bg-secondary overflow-auto flex-grow-1" >
-      <div className="align-bottom" >
-        <input type="text" value={message} onChange={handleOnChange} />
-        <button type="button" onClick={handleSendOnClick}>
-          Send
-        </button>
-        <button type="button" onClick={handleLeaveOnClick}>
-          Leave
-        </button>
-        <div className="overflow-auto">
-          {messages.map((m) => (
-            <p className="text-info" key={m.id}>
-              ({m.created.toLocaleTimeString()}) <strong>{m.userName}:</strong>{" "}
-              {m.message}
-            </p>
-          ))}
+  if(loadedMessages) {
+    return (
+      <div className="border border-dark bg-secondary overflow-auto flex-grow-1">
+        <div className="align-bottom">
+          <input type="text" value={message} onChange={handleOnChange} />
+          <button type="button" onClick={handleSendOnClick}>
+            Send
+          </button>
+          <button type="button" onClick={handleLeaveOnClick}>
+            Leave
+          </button>
+          <div className="overflow-auto">
+            {messages.map((m) => (
+
+              <p className="text-info" key={m.id}>
+                 ({new Date(m.createdAt).toLocaleTimeString()})<strong>{m.User.userName}:</strong>{" "}
+                {m.value}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return null
+  }
 };
 
 export default ChatPanel;

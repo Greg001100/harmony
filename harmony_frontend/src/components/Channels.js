@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getChannels } from "../actions/ServerActions";
-import { NavLink, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Channels = () => {
 
@@ -20,9 +20,9 @@ const Channels = () => {
         {channels.channel.map((channel) => {
           return (
             <p key={channel.id}>
-              <NavLink to={`home/${channel.id}`}>
+              <Link to={`/home/${serverId}/${channel.id}`}>
                 {channel.name}
-              </NavLink>
+              </Link>
             </p>
           );
         })}

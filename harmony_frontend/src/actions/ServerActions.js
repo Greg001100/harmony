@@ -2,6 +2,8 @@ import {baseUrl} from '../config'
 
 export const ADD_SERVER='ADD_SERVER'
 export const ADD_CHANNEL='ADD_CHANNEL'
+export const ADD_MESSAGE='ADD_MESSAGE'
+export const CLEAR_MESSAGES='CLEAR_MESSAGES'
 
 export const addServer = (server) => ({
     type: ADD_SERVER,
@@ -12,6 +14,15 @@ export const addChannel = (channel) => ({
     type: ADD_CHANNEL,
     channel
   });
+
+export const addMessage = (message) => ({
+    type: ADD_MESSAGE,
+    message
+  });
+
+export const clearMessages = () => ({
+    type: CLEAR_MESSAGES,
+})
 
 export const createServer = (name, ownerId) => async dispatch => {
     const response = await fetch(`${baseUrl}/servers/create`, {
@@ -44,6 +55,22 @@ export const createChannel = (name, serverId) => async dispatch => {
         console.error(errors)
     }
 }
+export const createMessage = (value, userId, channelId ) => async dispatch => {
+
+    const response = await fetch(`${baseUrl}/servers/${channelId}/createMessage`, {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({value, userId, channelId}),
+    })
+
+    if (response.ok) {
+        const {message} = await response.json()
+        dispatch(addMessage(message))
+    } else {
+        const errors = await response.json();
+        console.error(errors)
+    }
+}
 
 export const getServers = (userId) => async dispatch => {
     const response = await fetch(`${baseUrl}/servers/${userId}`, {
@@ -70,6 +97,22 @@ export const getChannels = (serverId) => async dispatch => {
     if(response.ok) {
         const channels = await response.json()
         dispatch(addChannel(channels))
+
+    } else {
+        const errors = await response.json();
+        console.error(errors)
+    }
+}
+
+export const getMessages = (channelId) => async dispatch => {
+    const response = await fetch(`${baseUrl}/servers/messages/${channelId}`, {
+        method: 'get',
+        headers: {'Content-Type': 'application/json'},
+    })
+
+    if(response.ok) {
+        const messages = await response.json()
+        dispatch(addMessage(messages))
 
     } else {
         const errors = await response.json();

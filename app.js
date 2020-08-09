@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const { createServer } = require('http');
 const WebSocket = require('ws')
 
+const {Message, User} = db;
 const usersRouter = require("./routes/users")
 const serverRouter = require("./routes/servers")
 
@@ -60,11 +61,15 @@ const server = createServer(app);
 const wss = new WebSocket.Server({server})
 
 wss.on('connection', (ws) => {
-  ws.on('message', (jsonData) => {
+  ws.on('message', async (jsonData) => {
     console.log(`Processing incoming message ${jsonData}...`);
 
     const message = JSON.parse(jsonData);
-    const chatMessage = message.data;
+    const {value, userId, channelId} = message.data
+    const recMessage = await Message.create({value, userId, channelId})
+    const chatMessage = await Message.findByPk(recMessage.id, {include:[User]})
+
+    console.log(chatMessage, 'yoyo')
 
     const addChatMessage = {
       type: 'add-chat-message',

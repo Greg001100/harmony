@@ -5,7 +5,7 @@ const { asyncHandler } = require("../utils");
 const {requireAuth} = require("../auth");
 
 
-const {Server, Server_User, User, Channel} = db;
+const {Server, Server_User, User, Channel, Message} = db;
 
 router.post(
     '/create',
@@ -25,6 +25,15 @@ router.post(
     })
 )
 
+router.post(
+    '/:id/createMessage',
+    asyncHandler(async (req, res) => {
+        const {value, userId, channelId} = req.body;
+        const message = await Message.create({value, userId, channelId})
+        res.json({message})
+    })
+)
+
 router.get(
     '/:id',
     asyncHandler(async (req, res) => {
@@ -39,8 +48,20 @@ router.get(
     asyncHandler(async (req, res) => {
         const server = await Server.findByPk(parseInt(req.params.id, 10), {include: Channel})
         const {Channels} = server
-        console.log('server:', server, 'channels:', Channels)
         res.json(Channels)
+    })
+)
+
+router.get(
+    '/messages/:id',
+    asyncHandler(async (req, res) => {
+        const messages = await Message.findAll({
+            where: {
+                channelId: parseInt(req.params.id, 10)
+            }, include: [User]
+        });
+
+        res.json(messages);
     })
 )
 
