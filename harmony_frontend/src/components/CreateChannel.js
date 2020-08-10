@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Button, Modal, Form} from "react-bootstrap"
 import { createChannel } from "../actions/ServerActions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import {useParams} from 'react-router-dom';
 
 
@@ -16,7 +16,6 @@ const CreateChannel = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('submitted', serverId)
     await dispatch(createChannel(channelName, serverId))
     handleClose()
   };

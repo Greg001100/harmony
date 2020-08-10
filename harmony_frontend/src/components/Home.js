@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Form, Button, Container, Col, Row, Navbar } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Container, Col, Row, Navbar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser, loadUser } from "../actions/authentication";
+import { loadUser } from "../actions/authentication";
 import { useHistory } from 'react-router-dom';
 
 import ChatPanel from "./ChatPanel";
-import Logout from "./logout";
 import MemberList from "./MemberList";
 import Channels from "./Channels";
 import ServerList from "./ServerList";

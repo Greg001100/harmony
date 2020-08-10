@@ -1,5 +1,5 @@
 import React from 'react';
-import {Navbar, Nav, Form, Button, FormControl, Container, Col} from 'react-bootstrap'
+import {Navbar, Container, Col} from 'react-bootstrap'
 import Logout from "./logout";
 import {useParams} from 'react-router-dom'
 import { useSelector } from "react-redux";
@@ -11,9 +11,6 @@ const TopNav = () => {
     const {serverId, channelId} = useParams()
 
     if(channels && servers) {
-        console.log(channels.channel, 'channels')
-        console.log(servers.server, 'servers')
-        console.log(serverId, 'serverid')
 
         let currentServer=[]
         servers.server.forEach(el => {

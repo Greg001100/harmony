@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Form, Button, Alert, Container, Row, Col } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory, Link } from 'react-router-dom';
+import { useDispatch, useSelector} from "react-redux";
+import {useHistory, Link} from 'react-router-dom'
 import { login } from "../actions/authentication";
-import { saveState } from "../utilities/localStorage";
-import Home from "./Home";
+
+
 
 const Login = () => {
   const [email, setEmail] = useState("");

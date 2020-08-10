@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import uuid from "uuid";
 import { wsUrl } from "../config";
 import { useParams } from "react-router-dom";
-import { getMessages, createMessage, clearMessages } from "../actions/ServerActions";
-import { Container, Form, Button, Col } from "react-bootstrap";
-import SimpleBar from 'simplebar'
+import { getMessages, clearMessages } from "../actions/ServerActions";
+import { Container, Form, Button, } from "react-bootstrap";
 
 const ChatPanel = () => {
   const userName = useSelector((state) => state.authentication.user.userName);
   const userId = useSelector((state) => state.authentication.user.id);
   const loadedMessages = useSelector((state) => state.messages[0]);
-  // const newMessages = useSelector((state) => state.messages[1]);
   const { channelId } = useParams();
   const dispatch = useDispatch();
   const [messages, setMessages] = useState([]);
@@ -27,16 +24,13 @@ const ChatPanel = () => {
 
 
   useEffect(() => {
-    // If we don't have a username
-    // then we don't need to create a WebSocket.
+
 
     if (loadedMessages) {
       const ws = new WebSocket(wsUrl);
 
       ws.onopen = (e) => {
         console.log(`Connection open: ${e}`);
-        // Set the messages state variable to trigger
-        // the other effect to set the `onmessage` event listener.
         setMessages(loadedMessages.message);
       };
 
@@ -52,8 +46,6 @@ const ChatPanel = () => {
 
       webSocket.current = ws;
 
-      // This function will be called when the next time
-      // that the `username` state variable changes.
       return function cleanup() {
         if (webSocket.current !== null) {
           webSocket.current.close();
@@ -65,7 +57,6 @@ const ChatPanel = () => {
 
   }, [loadedMessages, channelId]);
 
-  // This effect will be called when the `App` component unmounts.
   useEffect(() => {
     return function cleanup() {
       if (webSocket.current !== null) {
@@ -76,19 +67,13 @@ const ChatPanel = () => {
     };
   }, [channelId]);
 
-  // This effect is called whenever the `messages` state variable is changed.
   useEffect(() => {
     if (webSocket.current !== null) {
-      // Every time the messages state variable changes
-      // we need to reassign the `onmessage` event listener
-      // to wrap around the updated state variable value.
       webSocket.current.onmessage = (e) => {
         console.log(`Processing incoming message ${e.data}...`);
 
         const chatMessage = JSON.parse(e.data);
         const message = chatMessage.data;
-        console.log('fifif',message)
-        // message.created = new Date(message.created);
 
         setMessages([...messages, message]);
       };
@@ -103,8 +88,6 @@ const ChatPanel = () => {
       userId,
       channelId
     };
-
-    console.log('nm here',newMessage)
 
     const jsonNewMessage = JSON.stringify({
       type: "send-chat-message",
