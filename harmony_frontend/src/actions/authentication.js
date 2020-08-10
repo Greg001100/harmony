@@ -43,7 +43,7 @@ export const registerUser = (email, userName, password) => async dispatch => {
   if (response.ok) {
     const { token, user } = await response.json();
     window.localStorage.setItem(HARMONY_KEY, token);
-    window.localStorage.setItem(CURRENT_USER, userName);
+    window.localStorage.setItem(CURRENT_USER, JSON.stringify(user));
     dispatch(setToken(token));
     dispatch(setUser(user))
   } else {

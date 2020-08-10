@@ -4,6 +4,8 @@ import uuid from "uuid";
 import { wsUrl } from "../config";
 import { useParams } from "react-router-dom";
 import { getMessages, createMessage, clearMessages } from "../actions/ServerActions";
+import { Container, Form, Button, Col } from "react-bootstrap";
+import SimpleBar from 'simplebar'
 
 const ChatPanel = () => {
   const userName = useSelector((state) => state.authentication.user.userName);
@@ -21,7 +23,6 @@ const ChatPanel = () => {
       dispatch(getMessages(channelId));
     };
     fetchMessages();
-    console.log('amihere')
   }, [channelId]);
 
 
@@ -97,9 +98,7 @@ const ChatPanel = () => {
 
   const handleSendMessage = (value) => {
 
-    // dispatch(createMessage(value, userId, channelId))
-
-    const newMessage = {
+      const newMessage = {
       value,
       userId,
       channelId
@@ -135,29 +134,31 @@ const ChatPanel = () => {
 
   if(loadedMessages) {
     return (
-      <div className="border border-dark bg-secondary overflow-auto flex-grow-1">
-        <div className="align-bottom">
-          <input type="text" value={message} onChange={handleOnChange} />
-          <button type="button" onClick={handleSendOnClick}>
-            Send
-          </button>
-          <button type="button" onClick={handleLeaveOnClick}>
-            Leave
-          </button>
-          <div className="overflow-auto">
+      <div className="bg-chat overflow-auto d-flex flex-column justify-content-end h-100">
+        <div className='overflow-auto flex-grow-1 align-content-end'>
+          <Container className="overflow-auto partScreen">
             {messages.map((m) => (
 
-              <p className="text-info" key={m.id}>
-                 ({new Date(m.createdAt).toLocaleTimeString()})<strong>{m.User.userName}:</strong>{" "}
+              <p className="text-white-75" key={m.id}>
+                 <span className="small-letters">{new Date(m.createdAt).toLocaleTimeString()}</span><strong> {m.User.userName}:</strong>{" "}
                 {m.value}
               </p>
             ))}
-          </div>
+          </Container>
+          <Form className='d-flex'>
+            <Form.Control type='text' className='bg-chatbox border-0 mx-1' onChange={handleOnChange} placeholder="say something..." />
+            <Button variant='secondary' onClick={handleSendOnClick} type="submit">Send</Button>
+          </Form>
         </div>
       </div>
     );
   } else {
-    return null
+    return (
+      <Form className='d-flex'>
+        <Form.Control type='text' className='bg-chatbox border-0 mx-1' onChange={handleOnChange} placeholder="say something..." />
+        <Button variant='secondary' onClick={handleSendOnClick} type="submit">Send</Button>
+      </Form>
+    )
   }
 };
 

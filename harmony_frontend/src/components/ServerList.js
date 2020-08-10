@@ -17,6 +17,7 @@ const ServerList = () => {
   if (servers) {
     return (
       <>
+        <h4>Servers:</h4>
         {servers.server.map((server) => {
           return (
             <p key={server.id}>
@@ -29,7 +30,7 @@ const ServerList = () => {
       </>
     );
   } else {
-    return <h1>Server List</h1>;
+    return <h4>Servers:</h4>;
   }
 };
 

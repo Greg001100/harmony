@@ -1,10 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getMembers } from "../actions/ServerActions";
+import { NavLink, useHistory, useParams } from "react-router-dom";
 
 const MemberList = () => {
 
-    return(
-        <p>Member List</p>
-    )
-}
+  const {serverId} = useParams();
+  const members = useSelector((state) => state.members[0]);
+  const dispatch = useDispatch();
 
-export default MemberList
+  useEffect(() => {
+    dispatch(getMembers(serverId));
+  },[serverId]);
+
+  if (members) {
+
+    return (
+      <>
+        <h4>Members:</h4>
+        <p>Greg</p>
+        <p>Matt</p>
+        <p>Tyler</p>
+        <p>Stephanie</p>
+        <p>Steve</p>
+        <p>Erik</p>
+      </>
+    );
+  } else {
+    return <h4>Members:</h4>;
+  }
+};
+
+export default MemberList;

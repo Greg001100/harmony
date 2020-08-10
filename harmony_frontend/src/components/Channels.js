@@ -17,6 +17,7 @@ const Channels = () => {
   if (channels) {
     return (
       <>
+        <h4>Channels:</h4>
         {channels.channel.map((channel) => {
           return (
             <p key={channel.id}>
@@ -29,7 +30,7 @@ const Channels = () => {
       </>
     );
   } else {
-    return <h1>Server List</h1>;
+    return <h4>Channels:</h4>;
   }
 };
 

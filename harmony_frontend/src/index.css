@@ -5,10 +5,40 @@
   }
 
 .fullScreen {
-    height: 100vh;
+    max-height: 100vh;
 }
 
-.messages-3amgkR {
+.partScreen {
+    max-height: 89vh;
+}
+
+.bg-darker {
+    background-color: rgb(39, 39, 39);
+}
+
+.border-darker {
+    border-color: rgb(20, 20, 20);
+}
+
+.bg-chat {
+    background-color: #41484e
+}
+.bg-chatbox {
+    background-color: #565e66
+}
+
+.small-letters {
+    font-size: .75em
+}
+
+/* .splash {
+    background-image: url('banner-background.jpg');
+} */
+
+
+
+
+/* .messages-3amgkR {
     margin: 100px;
     overflow-x: hidden;
     background-color: var(--background-primary);
@@ -27,4 +57,4 @@
     -webkit-box-align: stretch;
     -ms-flex-align: stretch;
     align-items: stretch;
-}
+} */

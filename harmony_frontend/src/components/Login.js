@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Alert } from "react-bootstrap";
+import { Form, Button, Alert, Container, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect, useHistory, Link } from 'react-router-dom';
 import { login } from "../actions/authentication";
 import { saveState } from "../utilities/localStorage";
 import Home from "./Home";
@@ -15,14 +15,13 @@ const Login = () => {
   const badCredentials = useSelector(state => state.authentication.badCredentials);
   const history= useHistory();
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     await dispatch(login(email, password));
     history.push('/home/1/1')
   };
   const fastLogin = async (e) => {
-    await dispatch(login('gergdll@gmail.com', 'P4ssword!'))
+    await dispatch(login('demo@demo.com', 'P4ssword!'))
     history.push('/home/1/1')
   };
 
@@ -30,28 +29,36 @@ const Login = () => {
   const updatePassword = (e) => setPassword(e.target.value);
 
   return (
-    <>
-      {badCredentials ? <Alert variant="danger">Invalid Credentials</Alert>: null}
-      <Form onSubmit= {handleSubmit}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" value={email} onChange={updateEmail} />
-        </Form.Group>
+    <Container>
+      <Row className='d-flex justify-content-center'>
+        <Col></Col>
+          <Col>
+            {badCredentials ? <Alert variant="danger">Invalid Credentials</Alert>: null}
+            <Form onSubmit= {handleSubmit}>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control type="email" placeholder="Enter email" value={email} onChange={updateEmail} />
+              </Form.Group>
 
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" value={password} onChange={updatePassword} />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+              <Form.Group controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="password" placeholder="Password" value={password} onChange={updatePassword} />
+              </Form.Group>
+              <Button className="my-1" variant="primary" type="submit">
+                Submit
+              </Button>
+            </Form>
+              <Button className="my-1" variant="primary" type="submit" onClick={fastLogin}>
+                Demo Login
+              </Button>
+              <br></br>
+              <Link to="/signup">Don't have an account?</Link>
+          </Col>
+        <Col></Col>
+      </Row>
+    </Container>
 
-        <Button variant="primary" type="submit" onClick={fastLogin}>
-          fast login
-        </Button>
 
-    </>
   );
 };
 

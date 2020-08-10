@@ -25,8 +25,8 @@ const CreateChannel = () => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Create a new Channel
+      <Button variant="secondary" onClick={handleShow}>
+        Create Channel
       </Button>
 
       <Modal show={show} onHide={handleClose} animation={false}>

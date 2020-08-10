@@ -13,6 +13,7 @@ router.post(
         const {name, ownerId} = req.body;
         const server = await Server.create({name, ownerId})
         await Server_User.create({serverId: server.id, userId: ownerId})
+        await Channel.create({name: 'General', serverId: server.id})
         res.json({server})
     })
 )
@@ -37,9 +38,19 @@ router.post(
 router.get(
     '/:id',
     asyncHandler(async (req, res) => {
-        const user = await User.findByPk(parseInt(req.params.id, 10), {include: Server})
+        const user = await User.findByPk(parseInt(req.params.id, 10), {include: Server, through: Server_User})
+
         const {Servers} = user
         res.json(Servers)
+    })
+)
+
+router.get(
+    '/members/:serverId',
+    asyncHandler(async (req, res) => {
+
+        const members = await Server.findByPk(parseInt(req.params.serverId, 10), {include: User, through: Server_User})
+        res.json(members)
     })
 )
 

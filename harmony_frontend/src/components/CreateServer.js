@@ -24,8 +24,8 @@ const CreateServer = () => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Create a new server
+      <Button variant="secondary" onClick={handleShow}>
+        Create Server
       </Button>
 
       <Modal show={show} onHide={handleClose} animation={false}>
