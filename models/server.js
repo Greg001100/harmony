@@ -11,13 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.myAssociation = this.hasMany(models.Channel, {foreignKey: 'serverId'});
-      this.myAssociation = this.belongsTo(models.User, {foreignKey: 'ownerId'});
       const serverColumnMap = {
         through: 'Server_User',
         otherKey: 'userId',
         foreignKey: 'serverId'
       }
       this.myAssociation = this.belongsToMany(models.User, serverColumnMap);
+      this.myAssociation = this.belongsTo(models.User, {foreignKey: 'ownerId'});
 
     }
   };
