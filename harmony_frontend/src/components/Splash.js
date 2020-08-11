@@ -23,8 +23,9 @@ function Splash() {
       </Row>
       <Row className="justify-content-center">
           <nav className="d-flex justify-content-center">
-            <Button className="mx-3" href="/signup">Sign up</Button>
-            <Button className="mx-3" href="/login">Login</Button>
+            {/* <Button className="mx-3" href="/signup">Sign up</Button>
+            <Button className="mx-3" href="/login"></Button> */}
+            <Link to='/login'>Login</Link>
           </nav>
       </Row>
     </Container>
