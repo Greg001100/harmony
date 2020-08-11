@@ -7,5 +7,5 @@ export const baseUrl =
 export const wsUrl =
                 process.env.REACT_APP_WS_URL ||
                 process.env.NODE_ENV === "production"
-                    ? 'ws://harmony-fullstack.herokuapp.com'
+                    ? 'wss://harmony-fullstack.herokuapp.com'
                     : 'ws://localhost:8081'
