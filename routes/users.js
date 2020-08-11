@@ -1,7 +1,7 @@
 
 const express = require("express");
 const bcrypt = require("bcryptjs");
-const { check } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 const { asyncHandler, handleValidationErrors } = require("../utils");
 const { getUserToken, requireAuth } = require("../auth");
 const router = express.Router();
@@ -67,14 +67,20 @@ router.post(
   handleValidationErrors,
   asyncHandler(async (req, res) => {
     const { userName, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ userName, email, hashedPassword });
-    await Server_User.create({serverId:1, userId: user.id})
+    const validatorErrors = validationResult(req)
 
-    const {jti, token} = getUserToken(user);
-    user.token = jti;
-    await user.save();
-    res.json({ token, user});
+    if(validatorErrors.isEmpty()){
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = await User.build({ userName, email, hashedPassword });
+      const {jti, token} = getUserToken(user);
+      user.token = jti;
+      await user.save();
+      await Server_User.create({serverId:1, userId: user.id})
+      res.json({ token, user});
+    } else {
+      const errors = validatorErrors.array().map((error) => error.msg);
+      res.json({errors})
+    }
   })
 );
 

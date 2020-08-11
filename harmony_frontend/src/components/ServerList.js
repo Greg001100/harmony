@@ -12,7 +12,7 @@ const ServerList = () => {
 
   useEffect(() => {
     dispatch(getServers(userId));
-  }, [userId]);
+  }, [userId, servers]);
 
   if (servers) {
     return (

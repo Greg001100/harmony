@@ -14,16 +14,19 @@ const MemberList = () => {
   },[serverId]);
 
   if (members) {
+    const users = members.members.Users
+    console.log(users)
 
     return (
       <>
         <h4>Members:</h4>
-        <p>Greg</p>
-        <p>Matt828</p>
-        <p>Tyler</p>
-        <p>Stephanie</p>
-        <p>Steve</p>
-        <p>Erik</p>
+        {users.map((user) => {
+          return (
+            <p key={user.id}>
+              {user.userName}
+            </p>
+          );
+        })}
       </>
     );
   } else {

@@ -16,9 +16,9 @@ const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password===confirm) {
-      dispatch(removeAuth());
-      dispatch(registerUser(email, userName, password));
-      history.push('/home/1/1');
+      await dispatch(removeAuth());
+      await dispatch(registerUser(email, userName, password));
+      await history.push('/home/1/1');
     } else {
       alert('Password and confirmation do not match!')
     }

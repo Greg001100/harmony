@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Alert, Container, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector} from "react-redux";
 import {useHistory, Link} from 'react-router-dom'
-import { login } from "../actions/authentication";
+import { login, removeAuth } from "../actions/authentication";
 
 
 
@@ -13,15 +13,21 @@ const Login = () => {
   const dispatch = useDispatch();
   const token = useSelector(state => state.authentication.token);
   const badCredentials = useSelector(state => state.authentication.badCredentials);
+  const valErrors = useSelector(state => state.authentication.valErrors);
   const history= useHistory();
+
+  if (valErrors) {
+    history.push('/signup')
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    await dispatch(removeAuth());
     await dispatch(login(email, password));
     history.push('/home/1/1')
   };
   const fastLogin = async (e) => {
-    dispatch(login('demo@demo.com', 'P4ssword!'))
+    await dispatch(login('demo@demo.com', 'P4ssword!'))
     history.push('/home/1/1')
   };
 
