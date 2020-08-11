@@ -19,7 +19,7 @@ const MemberList = () => {
       <>
         <h4>Members:</h4>
         <p>Greg</p>
-        <p>Matt</p>
+        <p>Matt828</p>
         <p>Tyler</p>
         <p>Stephanie</p>
         <p>Steve</p>

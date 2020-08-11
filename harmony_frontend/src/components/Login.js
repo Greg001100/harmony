@@ -21,7 +21,7 @@ const Login = () => {
     history.push('/home/1/1')
   };
   const fastLogin = async (e) => {
-    await dispatch(login('demo@demo.com', 'P4ssword!'))
+    dispatch(login('demo@demo.com', 'P4ssword!'))
     history.push('/home/1/1')
   };
 

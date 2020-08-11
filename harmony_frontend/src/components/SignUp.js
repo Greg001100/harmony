@@ -13,7 +13,7 @@ const RegistrationForm = () => {
   const dispatch = useDispatch();
   const valErrors = useSelector(state => state.authentication.valErrors);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password===confirm) {
       dispatch(removeAuth());

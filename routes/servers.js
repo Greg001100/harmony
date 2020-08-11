@@ -50,6 +50,7 @@ router.get(
     asyncHandler(async (req, res) => {
 
         const members = await Server.findByPk(parseInt(req.params.serverId, 10), {include: User, through: Server_User})
+        console.log(members)
         res.json(members)
     })
 )
