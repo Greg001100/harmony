@@ -46,6 +46,7 @@ const Home = () => {
             </Col>
             <Col className="bg-chat flex d-flex flex-column justify-content-end overflow-y rounded-lg">
               <ChatPanel />
+
             </Col>
             <Col xs={2} className="bg-dark">
               <MemberList />
