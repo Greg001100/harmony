@@ -23,7 +23,7 @@ const MemberList = () => {
         {users.map((user) => {
           return (
             <p key={user.id}>
-              {user.userName} {user.id}
+              {user.userName}
             </p>
           );
         })}
