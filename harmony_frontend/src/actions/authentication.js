@@ -49,7 +49,6 @@ export const registerUser = (email, userName, password) => async dispatch => {
   } else {
     const valErrors = await response.json()
     dispatch(setValErrors(valErrors.errors))
-    console.log(valErrors);
   }
 }
 
