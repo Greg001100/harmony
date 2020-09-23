@@ -25,7 +25,6 @@ const ChatPanel = () => {
 
   useEffect(() => {
 
-
     if (loadedMessages) {
       const ws = new WebSocket(wsUrl);
 
@@ -45,7 +44,6 @@ const ChatPanel = () => {
       };
 
       webSocket.current = ws;
-
       return function cleanup() {
         if (webSocket.current !== null) {
           webSocket.current.close();
@@ -78,7 +76,7 @@ const ChatPanel = () => {
         setMessages([...messages, message]);
       };
     }
-  }, [messages]);
+  }, []);
 
 
   const handleSendMessage = (value) => {
@@ -136,6 +134,7 @@ const ChatPanel = () => {
       </div>
     );
   } else {
+    console.log('nuthin here yet')
     return (
       <Form className='d-flex'>
         <Form.Control type='text' className='bg-chatbox border-0 mx-1' onChange={handleOnChange} placeholder="say something..." />

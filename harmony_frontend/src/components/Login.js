@@ -26,7 +26,10 @@ const Login = () => {
     await dispatch(login(email, password));
     history.push('/home/1/1')
   };
+
   const fastLogin = async (e) => {
+    e.preventDefault();
+    await dispatch(removeAuth());
     await dispatch(login('demo@demo.com', 'P4ssword!'))
     history.push('/home/1/1')
   };

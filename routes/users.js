@@ -96,12 +96,21 @@ router.post(
       },
     });
 
+    if (!user) {
+      const err = new Error("Login failed");
+      err.status = 401;
+      err.title = "Login failed";
+      err.errors = ["The provided credentials were invalid."];
+      res.status = 401;
+      return next(err)
+    }
+
     const passwordMatch = await bcrypt.compare(
         password,
         user.hashedPassword.toString()
     )
 
-    if (!user || !passwordMatch) {
+    if (!passwordMatch) {
       const err = new Error("Login failed");
       err.status = 401;
       err.title = "Login failed";
