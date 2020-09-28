@@ -8,6 +8,7 @@ import {loadToken, loadUser} from './actions/authentication'
 
 import { PrivateRoute } from "./utilities/routesUtil.js";
 import Splash from "./components/Splash";
+import LandingPage from "./components/LandingPage";
 
 function App() {
   const dispatch = useDispatch()
@@ -30,7 +31,7 @@ function App() {
         <PrivateRoute path="/home/:serverId/:channelId" needLogin={needLogin} component={Home}></PrivateRoute>
         <Route path="/login" component={Login}></Route>
         <Route path="/signup" component={SignUp}></Route>
-        <Route exact path="/" component={Splash}></Route>
+        <Route exact path="/" component={LandingPage}></Route>
       </Switch>
     </BrowserRouter>
   )

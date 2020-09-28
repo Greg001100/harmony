@@ -18,16 +18,16 @@ import 'simplebar/dist/simplebar.min.css';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const history= useHistory();
+  // const history= useHistory();
 
   useEffect(() => {
     dispatch(loadUser());
   }, []);
 
-  const token = useSelector((state) => state.authentication.token);
-  const userName = useSelector((state) => state.authentication.user.userName);
+  // const token = useSelector((state) => state.authentication.token);
+  // const userName = useSelector((state) => state.authentication.user.userName);
 
-
+  debugger
   return (
     <>
       <SimpleBar>

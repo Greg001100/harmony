@@ -12,7 +12,6 @@ const getUserToken = (user) => {
   };
   const jwtid = uuid();
 
-
   return {
     jti: jwtid,
     token: jwt.sign({ data }, secret, { expiresIn: Number.parseInt(expiresIn), jwtid })

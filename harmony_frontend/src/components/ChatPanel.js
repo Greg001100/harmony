@@ -76,7 +76,7 @@ const ChatPanel = () => {
         setMessages([...messages, message]);
       };
     }
-  }, []);
+  }, [messages]);
 
 
   const handleSendMessage = (value) => {
@@ -113,7 +113,7 @@ const ChatPanel = () => {
     handleLeave();
   };
 
-  if(loadedMessages) {
+  if(messages.length) {
     return (
       <div className="bg-chat overflow-auto d-flex flex-column justify-content-end h-100">
         <div className='overflow-auto flex-grow-1 align-content-end'>
