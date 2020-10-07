@@ -32,38 +32,36 @@ const RegistrationForm = () => {
   return (
     <Container>
       <Row>
-        <Col></Col>
           <Col sm>
             {valErrors ? <Alert variant="danger">{valErrors.map((error, idx) => (<p key={idx}>{error}</p>))}</Alert>: null}
             <Form onSubmit ={handleSubmit}>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridUsername">
-                  <Form.Label>Username</Form.Label>
+                  <Form.Label className='text-light'>Username</Form.Label>
                   <Form.Control type="text" placeholder="Enter Username" value = {userName} onChange={updateUserName} />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridEmail">
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label className='text-light'>Email</Form.Label>
                   <Form.Control type="email"value={email} placeholder='Enter Email' onChange={updateEmail} />
                 </Form.Group>
             </Form.Row>
             <Form.Group controlId="formBasicPassword">
-                  <Form.Label>Password</Form.Label>
+                  <Form.Label className='text-light'>Password</Form.Label>
                   <Form.Control type="password" placeholder="Password: Must have at least one capital, number, special character" onChange={updatePassword} />
               </Form.Group>
 
             <Form.Group controlId="formBasicPasswordConf">
-                  <Form.Label>Confirm Password</Form.Label>
+                  <Form.Label className='text-light'>Confirm Password</Form.Label>
                   <Form.Control type="password" placeholder="Confirm Password" onChange={updateConfirm} />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="light" type="submit">
                 Submit
             </Button>
             </Form>
             <br></br>
-              <Link to="/login">Already have an account?</Link>
+              <Link className='text-light' to="/login">Already have an account?</Link>
           </Col>
-        <Col></Col>
       </Row>
     </Container>
 

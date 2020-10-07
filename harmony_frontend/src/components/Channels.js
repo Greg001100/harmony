@@ -21,8 +21,8 @@ const Channels = () => {
         {channels.channel.map((channel) => {
           return (
             <p key={channel.id}>
-              <Link to={`/home/${serverId}/${channel.id}`}>
-                {channel.name}
+              <Link className='text-secondary font-weight-bold' to={`/home/${serverId}/${channel.id}`}>
+                # {channel.name}
               </Link>
             </p>
           );

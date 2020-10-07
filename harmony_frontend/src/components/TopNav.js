@@ -28,7 +28,7 @@ const TopNav = () => {
         })
         const channelName = currentChannel[0].name
         return(
-            <Navbar className="flex-fill" bg="dark" variant="dark">
+            <Navbar className="flex-fill font-weight-bold" bg="dark" variant="dark">
                 <Container fluid className="vw-100 d-flex justify-content-start border-darker">
                     <Col xs={1} className="pl-0">
                         <Navbar.Brand href="#home">Harmony</Navbar.Brand>

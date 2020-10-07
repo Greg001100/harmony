@@ -30,3 +30,20 @@
 .small-letters {
     font-size: .75em
 }
+
+.large-letters {
+    font-size: 1.5em
+}
+
+.sky {
+    background-color: rgb(196, 215, 252);
+}
+
+.land-width {
+    width: 300px;
+}
+
+.noBorder {
+    border: none!important;
+    box-shadow: none!important;
+}
