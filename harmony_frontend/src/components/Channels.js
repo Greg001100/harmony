@@ -12,7 +12,7 @@ const Channels = () => {
 
   useEffect(() => {
     dispatch(getChannels(serverId));
-  }, [serverId]);
+  }, [serverId, channels]);
 
   if (channels) {
     return (

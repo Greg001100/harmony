@@ -17,6 +17,7 @@ const CreateServer = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await dispatch(createServer(serverName, userId))
+    await window.location.reload(true)
     handleClose()
   };
 
@@ -33,7 +34,7 @@ const CreateServer = () => {
           <Modal.Title>Create A Server!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <Form.Label>Enter Server Name</Form.Label>
                 <Form.Control type="text" placeholder="Enter a name for your server" value = {serverName} onChange={updateServerName} />
             </Form>

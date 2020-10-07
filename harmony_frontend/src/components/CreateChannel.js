@@ -5,6 +5,7 @@ import { useDispatch} from "react-redux";
 import {useParams} from 'react-router-dom';
 
 
+
 const CreateChannel = () => {
   const [show, setShow] = useState(false);
   const [channelName, setChannelName] = useState("")
@@ -17,7 +18,8 @@ const CreateChannel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await dispatch(createChannel(channelName, serverId))
-    handleClose()
+    await window.location.reload(true)
+    await handleClose()
   };
 
   const updateChannelName= (e) => setChannelName(e.target.value)
@@ -33,7 +35,7 @@ const CreateChannel = () => {
           <Modal.Title>Create A Channel!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <Form.Label>Enter Channel Name</Form.Label>
                 <Form.Control type="text" placeholder="Enter a name for your Channel" value = {channelName} onChange={updateChannelName} />
             </Form>
