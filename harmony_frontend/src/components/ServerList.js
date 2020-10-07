@@ -21,7 +21,7 @@ const ServerList = () => {
         {servers.server.map((server) => {
           return (
             <p key={server.id}>
-              <NavLink className='text-secondary font-weight-bold' to={`/home/${server.id}/1`}>
+              <NavLink className='text-secondary font-weight-bold' to={`/home/${server.id}/${server.Channels[0].id}`}>
                 {server.name}
               </NavLink>
             </p>

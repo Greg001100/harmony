@@ -10,6 +10,8 @@ const TopNav = () => {
     const userName = useSelector((state) => state.authentication.user.userName);
     const {serverId, channelId} = useParams()
 
+    //make useeffect that uses channel id to query db for the name of the channel
+
     if(channels && servers) {
 
         let currentServer=[]
@@ -26,6 +28,8 @@ const TopNav = () => {
                 currentChannel.push(el)
             }
         })
+
+
         const channelName = currentChannel[0].name
         return(
             <Navbar className="flex-fill font-weight-bold" bg="dark" variant="dark">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getChannels } from "../actions/ServerActions";
+import { getChannels, clearChannels } from "../actions/ServerActions";
 import { Link, useParams } from "react-router-dom";
 
 const Channels = () => {
@@ -11,8 +11,9 @@ const Channels = () => {
 
 
   useEffect(() => {
+    dispatch(clearChannels())
     dispatch(getChannels(serverId));
-  }, [serverId, channels]);
+  }, [serverId]);
 
   if (channels) {
     return (

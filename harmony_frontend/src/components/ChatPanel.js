@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { wsUrl } from "../config";
 import { useParams } from "react-router-dom";
 import { getMessages, clearMessages } from "../actions/ServerActions";
-import { Container, Form, Button, } from "react-bootstrap";
+import { Container, Form, Button } from "react-bootstrap";
 
 const ChatPanel = () => {
   const userName = useSelector((state) => state.authentication.user.userName);
@@ -22,9 +22,7 @@ const ChatPanel = () => {
     fetchMessages();
   }, [channelId]);
 
-
   useEffect(() => {
-
     if (loadedMessages) {
       const ws = new WebSocket(wsUrl);
 
@@ -47,20 +45,18 @@ const ChatPanel = () => {
       return function cleanup() {
         if (webSocket.current !== null) {
           webSocket.current.close();
-          console.log('cleanup')
+          console.log("cleanup");
         }
       };
     }
-
-
   }, [loadedMessages, channelId]);
 
   useEffect(() => {
     return function cleanup() {
       if (webSocket.current !== null) {
         webSocket.current.close();
-        setMessages([])
-        dispatch(clearMessages())
+        setMessages([]);
+        dispatch(clearMessages());
       }
     };
   }, [channelId]);
@@ -78,13 +74,11 @@ const ChatPanel = () => {
     }
   }, [messages]);
 
-
   const handleSendMessage = (value) => {
-
-      const newMessage = {
+    const newMessage = {
       value,
       userId,
-      channelId
+      channelId,
     };
 
     const jsonNewMessage = JSON.stringify({
@@ -96,7 +90,6 @@ const ChatPanel = () => {
 
     webSocket.current.send(jsonNewMessage);
   };
-
 
   const handleLeave = () => {};
 
@@ -113,34 +106,48 @@ const ChatPanel = () => {
     handleLeave();
   };
 
-  if(messages.length) {
+  if (messages.length) {
     return (
       <div className="bg-chat overflow-auto d-flex flex-column justify-content-end h-100">
-        <div className='overflow-auto flex-grow-1 align-content-end'>
+        <div className="overflow-auto flex-grow-1 align-content-end">
           <Container className="overflow-auto partScreen">
             {messages.map((m) => (
-
               <p className="text-white-75" key={m.id}>
-                 <span className="small-letters">{new Date(m.createdAt).toLocaleTimeString()}</span><strong> {m.User.userName}:</strong>{" "}
-                {m.value}
+                <span className="small-letters">
+                  {new Date(m.createdAt).toLocaleTimeString()}
+                </span>
+                <strong> {m.User.userName}:</strong> {m.value}
               </p>
             ))}
           </Container>
-          <Form className='d-flex'>
-            <Form.Control type='text' className='bg-chatbox border-0 mx-1' onChange={handleOnChange} placeholder="say something..." />
-            <Button variant='secondary' onClick={handleSendOnClick} type="submit">Send</Button>
-          </Form>
         </div>
+        <Form className="d-flex mb-4">
+          <Form.Control
+            type="text"
+            className="bg-chatbox border-0 mx-1"
+            onChange={handleOnChange}
+            placeholder="say something..."
+          />
+          <Button variant="secondary" onClick={handleSendOnClick} type="submit">
+            Send
+          </Button>
+        </Form>
       </div>
     );
   } else {
-    console.log('nuthin here yet')
     return (
-      <Form className='d-flex'>
-        <Form.Control type='text' className='bg-chatbox border-0 mx-1' onChange={handleOnChange} placeholder="say something..." />
-        <Button variant='secondary' onClick={handleSendOnClick} type="submit">Send</Button>
+      <Form className="d-flex mb-4">
+        <Form.Control
+          type="text"
+          className="bg-chatbox border-0 mx-1"
+          onChange={handleOnChange}
+          placeholder="say something..."
+        />
+        <Button variant="secondary" onClick={handleSendOnClick} type="submit">
+          Send
+        </Button>
       </Form>
-    )
+    );
   }
 };
 

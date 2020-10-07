@@ -1,5 +1,6 @@
 import {
     ADD_CHANNEL,
+    CLEAR_CHANNELS
 } from '../actions/ServerActions'
 
 const channelsReducer = (state=[], action) => {
@@ -11,6 +12,9 @@ const channelsReducer = (state=[], action) => {
                     channel: action.channel
                 }
             ]
+        }
+        case CLEAR_CHANNELS: {
+            return [];
         }
 
         default: return state;

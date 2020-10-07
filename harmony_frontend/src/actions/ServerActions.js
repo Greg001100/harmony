@@ -4,6 +4,7 @@ export const ADD_SERVER = "ADD_SERVER";
 export const ADD_CHANNEL = "ADD_CHANNEL";
 export const ADD_MESSAGE = "ADD_MESSAGE";
 export const CLEAR_MESSAGES = "CLEAR_MESSAGES";
+export const CLEAR_CHANNELS = "CLEAR_CHANNELS";
 export const ADD_MEMBERS = "ADD_MEMBERS";
 
 export const addServer = (server) => ({
@@ -28,6 +29,10 @@ export const addMembers = (members) => ({
 
 export const clearMessages = () => ({
   type: CLEAR_MESSAGES,
+});
+
+export const clearChannels = () => ({
+  type: CLEAR_CHANNELS,
 });
 
 export const createServer = (name, ownerId) => async (dispatch) => {
