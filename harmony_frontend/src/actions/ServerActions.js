@@ -67,7 +67,6 @@ export const createChannel = (name, serverId) => async (dispatch) => {
   }
 };
 
-
 export const getServers = (userId) => async (dispatch) => {
   const response = await fetch(`${baseUrl}/servers/${userId}`, {
     method: "get",
@@ -121,6 +120,22 @@ export const getMessages = (channelId) => async (dispatch) => {
   if (response.ok) {
     const messages = await response.json();
     dispatch(addMessage(messages));
+  } else {
+    const errors = await response.json();
+    console.error(errors);
+  }
+};
+
+export const getName = (channelId) => async (dispatch) => {
+  const response = await fetch(`${baseUrl}/servers/name/${channelId}`, {
+    method: "get",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (response.ok) {
+    const channel = await response.json();
+    console.log(channel)
+    return channel
   } else {
     const errors = await response.json();
     console.error(errors);

@@ -97,4 +97,13 @@ router.get(
   })
 );
 
+router.get(
+  "/name/:id",
+  asyncHandler(async (req, res) => {
+    const channel = await Channel.findByPk(parseInt(req.params.id, 10))
+
+    res.json(channel);
+  })
+);
+
 module.exports = router;
