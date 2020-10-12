@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 const MemberList = () => {
 
   const {serverId} = useParams();
-  const members = useSelector((state) => state.members[0]);
+  const members = useSelector((state) => state.members[state.members.length -1]);
   const dispatch = useDispatch();
 
   useEffect(() => {

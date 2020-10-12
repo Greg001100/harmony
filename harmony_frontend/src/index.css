@@ -47,3 +47,7 @@
     border: none!important;
     box-shadow: none!important;
 }
+
+#basic-nav-dropdown {
+    color: rgb(160, 160, 160);
+}

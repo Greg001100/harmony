@@ -6,6 +6,7 @@ import { NavLink, useHistory } from "react-router-dom";
 const ServerList = () => {
 
   const userId = useSelector((state) => state.authentication.user.id);
+  // const servers = useSelector((state) => state.servers[state.servers.length-1]);
   const servers = useSelector((state) => state.servers[0]);
   const dispatch = useDispatch();
   const history= useHistory();

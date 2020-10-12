@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Navbar, Container, Col } from "react-bootstrap";
+import { Navbar, Container, Col, NavDropdown } from "react-bootstrap";
 import Logout from "./logout";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -54,6 +54,11 @@ const TopNav = () => {
           <Col className="d-flex justify-content-between">
             <Navbar.Text># {channelName}</Navbar.Text>
             <Navbar.Text>Welcome {userName}!</Navbar.Text>
+            <NavDropdown title="About the Developer" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#action/3.3" target="_blank">Resume/Portfolio</NavDropdown.Item>
+                <NavDropdown.Item href="https://github.com/Greg001100" target="_blank">Github</NavDropdown.Item>
+                <NavDropdown.Item href="https://www.linkedin.com/in/greglloyd1/" target="_blank">Linkedin</NavDropdown.Item>
+            </NavDropdown>
           </Col>
           <Col xs={2}>
             <Logout></Logout>
