@@ -106,7 +106,7 @@ const ChatPanel = () => {
     handleLeave();
   };
 
-  if (messages) {
+  if (messages.length) {
     return (
       <div className="bg-chat overflow-auto d-flex flex-column justify-content-end h-100">
         <div className="overflow-auto flex-grow-1 align-content-end">
