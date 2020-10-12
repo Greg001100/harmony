@@ -22,7 +22,7 @@ const TopNav = () => {
     fetchName();
   }, [channelId]);
 
-  if (channels && servers) {
+  if (channels && servers.length) {
     let currentServer = [];
     servers.server.forEach((el) => {
       if (serverId == el.id) {
