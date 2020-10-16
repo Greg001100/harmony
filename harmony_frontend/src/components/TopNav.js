@@ -22,7 +22,7 @@ const TopNav = () => {
     fetchName();
   }, [channelId]);
 
-  if (channels && servers.length) {
+  if (channels && servers) {
     let currentServer = [];
     servers.server.forEach((el) => {
       if (serverId == el.id) {
@@ -55,9 +55,9 @@ const TopNav = () => {
             <Navbar.Text># {channelName}</Navbar.Text>
             <Navbar.Text>Welcome {userName}!</Navbar.Text>
             <NavDropdown title="About the Developer" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.3" target="_blank">Resume/Portfolio</NavDropdown.Item>
-                <NavDropdown.Item href="https://github.com/Greg001100" target="_blank">Github</NavDropdown.Item>
-                <NavDropdown.Item href="https://www.linkedin.com/in/greglloyd1/" target="_blank">Linkedin</NavDropdown.Item>
+                <NavDropdown.Item href="https://Greg001100.github.io" target="_blank" rel="noopener noreferrer">Resume/Portfolio</NavDropdown.Item>
+                <NavDropdown.Item href="https://github.com/Greg001100" target="_blank" rel="noopener noreferrer">Github</NavDropdown.Item>
+                <NavDropdown.Item href="https://www.linkedin.com/in/greglloyd1/" target="_blank" rel="noopener noreferrer">Linkedin</NavDropdown.Item>
             </NavDropdown>
           </Col>
           <Col xs={2}>

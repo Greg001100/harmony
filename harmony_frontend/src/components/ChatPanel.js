@@ -97,9 +97,10 @@ const ChatPanel = () => {
     setMessage(e.target.value);
   };
 
-  const handleSendOnClick = () => {
+  const handleSendOnClick = (e) => {
     handleSendMessage(message);
     setMessage("");
+    e.preventDefault();
   };
 
   const handleLeaveOnClick = () => {
@@ -127,6 +128,7 @@ const ChatPanel = () => {
             className="bg-chatbox border-0 mx-1"
             onChange={handleOnChange}
             placeholder="say something..."
+            value={message}
           />
           <Button variant="secondary" onClick={handleSendOnClick} type="submit">
             Send
