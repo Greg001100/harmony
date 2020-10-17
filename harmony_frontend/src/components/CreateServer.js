@@ -4,7 +4,7 @@ import { createServer } from "../actions/ServerActions";
 import { useDispatch, useSelector } from "react-redux";
 
 
-const CreateServer = () => {
+const CreateServer = (props) => {
   const [show, setShow] = useState(false);
   const [serverName, setServerName] = useState("")
   const userName = useSelector((state) => state.authentication.user.userName);
@@ -16,9 +16,12 @@ const CreateServer = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(createServer(serverName, userId))
-    await window.location.reload(true)
-    handleClose()
+    const server = await dispatch(createServer(serverName, userId))
+    await console.log(props.servers.server)
+    await console.log(server)
+    await props.setServers([...props.servers.server, server])
+    await console.log(props.servers)
+    await handleClose()
   };
 
   const updateServerName= (e) => setServerName(e.target.value)

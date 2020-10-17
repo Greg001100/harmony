@@ -3,6 +3,7 @@ import { Container, Col, Row, Navbar, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../actions/authentication";
 import { useHistory } from "react-router-dom";
+import { getServers } from "../actions/ServerActions";
 
 import ChatPanel from "./ChatPanel";
 import MemberList from "./MemberList";
@@ -16,11 +17,16 @@ import "simplebar/dist/simplebar.min.css";
 
 const Home = () => {
   const dispatch = useDispatch();
-  // const history= useHistory();
+  const [servers, setServers] = useState();
+  const userId = useSelector((state) => state.authentication.user.id);
 
   useEffect(() => {
     dispatch(loadUser());
   }, []);
+
+  useEffect(() => {
+    console.log(servers);
+  }, [servers]);
 
   // const token = useSelector((state) => state.authentication.token);
   // const userName = useSelector((state) => state.authentication.user.userName);
@@ -37,8 +43,8 @@ const Home = () => {
           </Row>
           <Row className="flex-grow-1">
             <Col xs={1} className="bg-darker rounded-lg">
-              <ServerList></ServerList>
-              <CreateServer />
+              <ServerList servers={servers} setServers={(server)=> setServers(server)}/>
+              <CreateServer servers={servers} setServers={(server)=> setServers(server)}/>
             </Col>
             <Col xs={2} className="bg-dark">
               <Channels />
