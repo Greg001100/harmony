@@ -43,9 +43,9 @@ export const createServer = (name, ownerId) => async (dispatch) => {
   });
 
   if (response.ok) {
-    const { server } = await response.json();
-    dispatch(addServer(server));
-    return server;
+    const { returnServer } = await response.json();
+    await dispatch(addServer(returnServer));
+    return returnServer;
   } else {
     const errors = await response.json();
     console.error(errors);

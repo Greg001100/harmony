@@ -11,9 +11,19 @@ const ServerList = (props) => {
   const dispatch = useDispatch();
   const history= useHistory();
 
+  console.log(props.servers)
+  console.log(userId)
+
   useEffect(() => {
-    dispatch(getServers(userId));
-    props.setServers(servers);
+    const awaitUpdate = async () =>{
+      console.log(userId)
+      await console.log(props.servers, "before update")
+      await dispatch(getServers(userId));
+      await props.setServers(servers);
+      await console.log(servers)
+      await console.log(props.servers, "after update")
+    }
+    awaitUpdate()
   }, [userId, servers]);
 
   if (props.servers) {

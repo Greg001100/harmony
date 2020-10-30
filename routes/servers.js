@@ -13,7 +13,10 @@ router.post(
     const server = await Server.create({ name, ownerId });
     await Server_User.create({ serverId: server.id, userId: ownerId });
     await Channel.create({ name: "General", serverId: server.id });
-    res.json({ server });
+    await console.log('HAHAH EHHEHE', server)
+    const returnServer = await Server.findByPk(server.id, {include: [{model: Channel}]})
+    console.log('returnserver', returnServer)
+    res.json( {returnServer} );
   })
 );
 router.post(
@@ -56,6 +59,7 @@ router.get(
     // [{ all: true, nested: true}]})
 
     const { Servers } = user;
+    console.log("working servers here", Servers)
     res.json(Servers);
   })
 );
@@ -67,7 +71,6 @@ router.get(
       include: User,
       through: Server_User,
     });
-    console.log(members);
     res.json(members);
   })
 );
